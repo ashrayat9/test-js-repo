@@ -28,7 +28,7 @@ jobs:
       - name: Parse Response
         id: parseResponse
         run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
-      - run: echo $GITHUB_OUTPUT
+      - run: echo $scan_id
 
   build:
     runs-on: ubuntu-latest
@@ -52,6 +52,7 @@ jobs:
       with:
           SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
