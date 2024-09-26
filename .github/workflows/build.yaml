@@ -28,10 +28,10 @@ jobs:
       - name: Parse Response
         id: parseResponse
         run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
-      - run: echo $scan_id
 
   build:
     runs-on: ubuntu-latest
+    needs: create_scan_in_IR_Portal
     services:
       pse:
         image: kkisalaya/pse-proxy:dev
@@ -48,9 +48,11 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
+    - env: 
+        SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
+        
     - uses: invisirisk/pse-action@v1.0.7
       with:
-
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
     - name: Checkout the code
