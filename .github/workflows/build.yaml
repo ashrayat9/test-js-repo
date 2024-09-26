@@ -16,7 +16,7 @@ jobs:
   create_scan_in_IR_Portal:
     runs-on: ubuntu-latest
     outputs:
-      scan_id: ${{steps.parseResponse.outputs.scan_id}}
+      scan_id: ${{ steps.parseResponse.outputs.scan_id }}
     steps:
       - name: Initiating SBOM Scan
         id: createScan
@@ -49,13 +49,12 @@ jobs:
         node-version: [18.x]
     steps:
     - env: 
-        SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
+        SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
       run: echo $SCAN_ID
-        
     - uses: invisirisk/pse-action@v1.0.7
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
+          SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
