@@ -49,7 +49,7 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: invisirisk/pse-action@v1.0.5
+    - uses: invisirisk/pse-action@v1.0.7
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout the code
