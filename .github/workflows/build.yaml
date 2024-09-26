@@ -1,10 +1,14 @@
 name: Build NPM Package
-
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+permissions:
+  checks: write
+  contents: read
+  packages: read
 env:
   API_URL: 'https://app.dev.veribom.com'
 
@@ -25,21 +29,16 @@ jobs:
         id: parseResponse
         run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
 
-
   build:
     runs-on: ubuntu-latest
     services:
-      # Label used to access the service container 
       pse:
         image: kkisalaya/pse-proxy:dev
         env:
           PSE_DEBUG_FLAG: --alsologtostderr
           POLICY_LOG: t
-          INVISIRISK_JWT_TOKEN: ${{secrets.VB_API_KEY}} #WkxFvX05QDdcVUbN4AQPFNKVUo91hPpicvDitZL3RoJGEeKzzOSGaKXMeC34nEJbehBsxlT5DMF_RZ8-RQ1Lhg
+          INVISIRISK_JWT_TOKEN: ${{secrets.VB_API_KEY}} 
           INVISIRISK_PORTAL: https://app.dev.veribom.com/
-          #POLICY_AUTH_TOKEN: ${{ secrets.POLICY_AUTH_TOKEN }}
-          #POLICY_URL: https://app.dev.veribom.com/
-          SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
     container:
       image: node:18-alpine
@@ -51,6 +50,7 @@ jobs:
     steps:
     - uses: invisirisk/pse-action@v1.0.7
       with:
+          SCAN_ID: ${{needs.create_scan_in_IR_Portal.outputs.scan_id}}
           github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout the code
       uses: actions/checkout@v3
