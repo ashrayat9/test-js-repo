@@ -25,6 +25,7 @@ jobs:
           url: '${{env.API_URL}}/utilityapi/v1/scan'
           method: 'POST'
           data: '{"api_key": "${{secrets.VB_API_KEY}}"}'
+          follow-redirects: 'false'
       - name: Show Response
         run: |
               echo ${{ steps.myRequest.outputs.response }}
