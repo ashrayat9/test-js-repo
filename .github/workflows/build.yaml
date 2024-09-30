@@ -18,20 +18,16 @@ jobs:
     outputs:
       scan_id: ${{ steps.parseResponse.outputs.scan_id }}
     steps:
+      - name: Install jq and curl
+        run: |
+              sudo apt-get update
+              sudo apt-get install -y jq curl
       - name: Initiating SBOM Scan
         id: createScan
-        uses: fjogeleit/http-request-action@v1.16.2
-        with:
-          url: '${{env.API_URL}}/utilityapi/v1/scan'
-          method: 'POST'
-          data: '{"api_key": "${{secrets.VB_API_KEY}}"}'
-          follow-redirects: 'false'
-      - name: Show Response
         run: |
-              echo ${{ steps.myRequest.outputs.response }}
-              echo ${{ steps.myRequest.outputs.headers }}
-              echo ${{ steps.myRequest.outputs.status }}
-              echo ${{ fromJson(steps.myRequest.outputs.response).field_you_want_to_access }}
+          VB_CREATE_SCAN_HEADER_PARAM="Content-Type: application/json"
+          VB_CREATE_SCAN_DATA_PARAM="{\"api_key\": \"$VB_API_KEY\"}"
+          VB_SCAN_ID=$(curl --location "${VB_API_URL}/utilityapi/v1/scan" --header "$VB_CREATE_SCAN_HEADER_PARAM" --data "$VB_CREATE_SCAN_DATA_PARAM" 2>/dev/null | jq -r .data.scan_id)
       - name: Parse Response
         id: parseResponse
         run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
