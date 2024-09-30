@@ -23,14 +23,18 @@ jobs:
               sudo apt-get update
               sudo apt-get install -y jq curl
       - name: Initiating SBOM Scan
+        env:
+          VB_API_KEY: ${{ secrets.VB_API_KEY }}
+          API_URL: 'https://app.stage.veribom.com'
         id: createScan
         run: |
           VB_CREATE_SCAN_HEADER_PARAM="Content-Type: application/json"
           VB_CREATE_SCAN_DATA_PARAM="{\"api_key\": \"$VB_API_KEY\"}"
-          VB_SCAN_ID=$(curl --location "${VB_API_URL}/utilityapi/v1/scan" --header "$VB_CREATE_SCAN_HEADER_PARAM" --data "$VB_CREATE_SCAN_DATA_PARAM" 2>/dev/null | jq -r .data.scan_id)
+          VB_SCAN_ID=$(curl --location "${API_URL}/utilityapi/v1/scan" --header "$VB_CREATE_SCAN_HEADER_PARAM" --data "$VB_CREATE_SCAN_DATA_PARAM" 2>/dev/null | jq -r .data.scan_id)
+          echo $VB_SCAN_ID     
       - name: Parse Response
         id: parseResponse
-        run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
+        run: echo "scan_id=$VB_SCAN_ID" >> "$GITHUB_OUTPUT"
       # - env: 
       #     run_result: ${{ process.env.GITHUB_RUN_RESULT }}
       #   run: echo $run_result
