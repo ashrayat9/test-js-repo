@@ -18,23 +18,20 @@ jobs:
     outputs:
       scan_id: ${{ steps.parseResponse.outputs.scan_id }}
     steps:
-      - name: Install jq and curl
-        run: |
-              sudo apt-get update
-              sudo apt-get install -y jq curl
       - name: Initiating SBOM Scan
-        env:
-          API_KEY: ${{ secrets.VB_API_KEY }}
-          API_URL: 'https://app.stage.veribom.com'
         id: createScan
-        run: |
-          $VB_SCAN_ID=$(curl -X POST \
-          "https://app.stage.veribom.com/utilityapi/v1/scan?api_key=$API_KEY" \
-          --header 'Accept: */*')
-          echo $VB_SCAN_ID     
+        uses: fjogeleit/http-request-action@v1.15.1
+        with:
+          url: '${{env.API_URL}}/utilityapi/v1/scan'
+          method: 'POST'
+          data: '{"api_key": "${{secrets.VB_API_KEY}}"}'
       - name: Parse Response
         id: parseResponse
-        run: echo "scan_id=$VB_SCAN_ID" >> "$GITHUB_OUTPUT"
+        run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
+     
+      # - name: Parse Response
+      #   id: parseResponse
+      #   run: echo "scan_id=$VB_SCAN_ID" >> "$GITHUB_OUTPUT"
       # - env: 
       #     run_result: ${{ process.env.GITHUB_RUN_RESULT }}
       #   run: echo $run_result
