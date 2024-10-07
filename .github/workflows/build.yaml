@@ -11,6 +11,7 @@ permissions:
   packages: read
 env:
   API_URL: 'https://app.invisirisk.com'
+  IMAGE_NAME: 'invisirisk/pse-proxy:latest'
 
 jobs:
   create_scan_in_IR_Portal:
