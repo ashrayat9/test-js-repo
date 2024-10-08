@@ -50,6 +50,7 @@ jobs:
         id: ecr_details
         run: |
           echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" 
+          echo ${{username}
           echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" 
           echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" 
           echo "registry_id=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).registry_id}}"
