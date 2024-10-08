@@ -53,6 +53,8 @@ jobs:
           echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" >> "$GITHUB_OUTPUT"
           echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" >> "$GITHUB_OUTPUT"
           echo "registry_id=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).registry_id}}" >> "$GITHUB_OUTPUT"
+          echo "${{needs.ecr_details.outputs.ecr_token}}" | docker login -u ${{needs.ecr_details.outputs.ecr_username}}             ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com             --password-stdin
+          docker pull 282904853176.dkr.ecr.us-west-2.amazonaws.com/invisirisk/pse-proxy:latest
   
 
   start_proxy_and_build:
