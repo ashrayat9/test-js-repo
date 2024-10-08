@@ -52,7 +52,7 @@ jobs:
           echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" 
           echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" 
           echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" 
-          echo "registry_id=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).registry_id}}" >> 
+          echo "registry_id=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).registry_id}}"
           echo "${{token}}" | docker login -u ${{username}} ${{ecr_id}}.dkr.ecr.${{ecr_region}}.amazonaws.com --password-stdin
           docker pull 282904853176.dkr.ecr.us-west-2.amazonaws.com/invisirisk/pse-proxy:latest
   
