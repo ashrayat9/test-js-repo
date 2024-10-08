@@ -29,13 +29,14 @@ jobs:
       - name: Parse Response
         id: parseResponse
         run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
+        
   ecr_details:
     runs-on: ubuntu-latest
-    # outputs:
-    #   ecr_username: ${{steps.ecr_details.outputs.username}}
-    #   ecr_token: ${{steps.ecr_details.outputs.token}}
-    #   ecr_region: ${{steps.ecr_details.outputs.region}}
-    #   ecr_id: ${{steps.ecr_details.outputs.registry_id}}
+    outputs:
+      ecr_username: ${{steps.ecr_details.outputs.username}}
+      ecr_token: ${{steps.ecr_details.outputs.token}}
+      ecr_region: ${{steps.ecr_details.outputs.region}}
+      ecr_id: ${{steps.ecr_details.outputs.registry_id}}
     steps:
       - name: Fetching VB Token
         id: fetchECRDetails
@@ -49,15 +50,21 @@ jobs:
       - name: ECR Details
         id: ecr_details
         run: |
-          echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" 
-          echo ${{username}
-          # echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" 
-          echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" 
-          echo "registry_id=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).registry_id}}"
-          echo "${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" | docker login -u ${{username}} ${{ecr_id}}.dkr.ecr.${{ecr_region}}.amazonaws.com --password-stdin
-          docker pull 282904853176.dkr.ecr.us-west-2.amazonaws.com/invisirisk/pse-proxy:latest
+          echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" >> "$GITHUB_OUTPUT"
+          echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" >> "$GITHUB_OUTPUT"
+          echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" >> "$GITHUB_OUTPUT"
+          echo "registry_id=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).registry_id}}" >> "$GITHUB_OUTPUT"
   
-
+  pull_and_run:
+    runs-on: ubuntu-latest
+    needs: ecr_details
+    steps:
+      - name: Login to Amazon ECR
+        run: |
+          echo "${{needs.ecr_details.outputs.ecr_token}}" | docker login \
+            --username ${{needs.ecr_details.outputs.ecr_username}} \
+            --password-stdin ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com
+            
   start_proxy_and_build:
     runs-on: ubuntu-latest
     needs: [create_scan_in_IR_Portal, ecr_details]
@@ -65,10 +72,7 @@ jobs:
       container_id: ${{steps.pullImage.outputs.container_id}}
     services:
       pse:
-        image: 282904853176.dkr.ecr.us-west-2.amazonaws.com/invisirisk/pse-proxy:latest
-        credentials:
-          username: ${{needs.ecr_details.outputs.ecr_username}}
-          password: ${{needs.ecr_details.outputs.ecr_token}}
+        image: ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME
         env:
           PSE_DEBUG_FLAG: --alsologtostderr
           POLICY_LOG: t
