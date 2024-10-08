@@ -31,11 +31,11 @@ jobs:
         run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
   ecr_details:
     runs-on: ubuntu-latest
-    outputs:
-      ecr_username: ${{steps.ecr_details.outputs.username}}
-      ecr_token: ${{steps.ecr_details.outputs.token}}
-      ecr_region: ${{steps.ecr_details.outputs.region}}
-      ecr_id: ${{steps.ecr_details.outputs.registry_id}}
+    # outputs:
+    #   ecr_username: ${{steps.ecr_details.outputs.username}}
+    #   ecr_token: ${{steps.ecr_details.outputs.token}}
+    #   ecr_region: ${{steps.ecr_details.outputs.region}}
+    #   ecr_id: ${{steps.ecr_details.outputs.registry_id}}
     steps:
       - name: Fetching VB Token
         id: fetchECRDetails
