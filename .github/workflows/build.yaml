@@ -80,7 +80,6 @@ jobs:
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
-          token: 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
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
