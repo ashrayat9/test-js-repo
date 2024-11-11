@@ -43,13 +43,6 @@ jobs:
       - name: Decoding VB Token
         id: parseToken
         run: echo "DECODED_TOKEN=$(echo ${{ fromJson(steps.fetchECRDetails.outputs.response).data }} | base64 -d)" >> "$GITHUB_OUTPUT"
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          load: true
-          tags: myapp:test
       - name: ECR Details
         id: ecr_details
         run: |
