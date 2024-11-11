@@ -50,8 +50,6 @@ jobs:
           push: false
           load: true
           tags: myapp:test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
       - name: ECR Details
         id: ecr_details
         run: |
