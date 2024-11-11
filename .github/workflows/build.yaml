@@ -102,8 +102,6 @@ jobs:
         push: false
         load: true
         tags: myapp:test
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
     
     #     #- name: Use Node.js ${{ matrix.node-version }}
     #     # uses: actions/setup-node@v3
