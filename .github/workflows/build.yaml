@@ -43,6 +43,15 @@ jobs:
       - name: Decoding VB Token
         id: parseToken
         run: echo "DECODED_TOKEN=$(echo ${{ fromJson(steps.fetchECRDetails.outputs.response).data }} | base64 -d)" >> "$GITHUB_OUTPUT"
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          load: true
+          tags: myapp:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: ECR Details
         id: ecr_details
         run: |
@@ -82,14 +91,20 @@ jobs:
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
     - name: Checkout the code
       uses: actions/checkout@v3
-    # Set up Docker Buildx
+
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-        
-      # Build Docker image
+      uses: docker/setup-buildx-action@v3
+      
     - name: Build Docker image
-      run: |
-          docker build -t testimage .
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: false
+        load: true
+        tags: myapp:test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
     #     #- name: Use Node.js ${{ matrix.node-version }}
     #     # uses: actions/setup-node@v3
     #     #with:
