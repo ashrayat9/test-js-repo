@@ -83,22 +83,21 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v3
       
-    - name: Build Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: false
-        load: true
-        tags: myapp:test
+    # - name: Build Docker image
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: .
+    #     push: false
+    #     load: true
+    #     tags: myapp:test
     
-    #     #- name: Use Node.js ${{ matrix.node-version }}
-    #     # uses: actions/setup-node@v3
-    #     #with:
-    #     #node-version: ${{ matrix.node-version }}
-    # - run: docker build -t testimage .
-      #- run: npm ci
-      #- run: npm run build --if-present
-      #- run: npm test
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+          node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
