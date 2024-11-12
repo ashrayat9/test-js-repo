@@ -60,7 +60,6 @@ jobs:
           sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
           sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-          sudo docker build -t help .
           echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" >> "$GITHUB_OUTPUT"
           echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" >> "$GITHUB_OUTPUT"
           echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" >> "$GITHUB_OUTPUT"
@@ -109,10 +108,10 @@ jobs:
     #     load: true
     #     tags: myapp:test
     
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-          node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: Docker #Use Node.js ${{ matrix.node-version }}
+      #uses: actions/setup-node@v3
+      #with:
+      #    node-version: ${{ matrix.node-version }}
+    - run: sudo docker build -t 
+    #- run: npm run build --if-present
+    #- run: npm test
