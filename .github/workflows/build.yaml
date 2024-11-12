@@ -46,12 +46,15 @@ jobs:
       - name: ECR Details
         id: ecr_details
         run: |
-          sudo apt remove containerd
+          sudo apt remove containerd.io
           sudo apt autoremove
           sudo apt clean
           sudo apt update
           sudo apt upgrade
           sudo apt install -y containerd.io 
+          for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+          echo "#######################################################"
+          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
           sudo apt-get install -y docker.io
           sudo docker build -t help .
           echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" >> "$GITHUB_OUTPUT"
