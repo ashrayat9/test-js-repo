@@ -46,6 +46,10 @@ jobs:
       - name: ECR Details
         id: ecr_details
         run: |
+          sudo apt remove containerd
+          sudo apt autoremove
+          sudo apt clean
+          sudo apt update
           sudo apt-get install -y docker.io
           sudo docker build -t help .
           echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" >> "$GITHUB_OUTPUT"
