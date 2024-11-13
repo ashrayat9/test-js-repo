@@ -46,20 +46,20 @@ jobs:
       - name: ECR Details
         id: ecr_details
         run: |
-          for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
-          sudo apt-get update
-          sudo apt-get install ca-certificates curl
-          sudo install -m 0755 -d /etc/apt/keyrings
-          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          # for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+          # sudo apt-get update
+          # sudo apt-get install ca-certificates curl
+          # sudo install -m 0755 -d /etc/apt/keyrings
+          # sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          # sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-          # Add the repository to Apt sources:
-          echo \
-          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-          $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-          sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-          sudo apt-get update
-          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+          # # Add the repository to Apt sources:
+          # echo \
+          # "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          # $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+          # sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          # sudo apt-get update
+          # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
           echo "username=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).username}}" >> "$GITHUB_OUTPUT"
           echo "token=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).password}}" >> "$GITHUB_OUTPUT"
           echo "region=${{fromJSON(steps.parseToken.outputs.DECODED_TOKEN).region}}" >> "$GITHUB_OUTPUT"
@@ -96,22 +96,11 @@ jobs:
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
     - name: Checkout the code
       uses: actions/checkout@v3
-
-    # - name: Set up Docker Buildx
-    #   uses: docker/setup-buildx-action@v3
-      
-    # - name: Build Docker image
-    #   uses: docker/build-push-action@v5
-    #   with:
-    #     context: .
-    #     push: false
-    #     load: true
-    #     tags: myapp:test
     
-    - name: Docker #Use Node.js ${{ matrix.node-version }}
+    - name: build #Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
           node-version: ${{ matrix.node-version }}
-    - run: sudo docker build -t 
-    #- run: npm run build --if-present
-    #- run: npm test
+    - run: npm install 
+    - run: npm run build --if-present
+    - run: npm test
