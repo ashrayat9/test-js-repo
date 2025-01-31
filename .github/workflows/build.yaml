@@ -23,7 +23,8 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v2
       with:
-           install: true 
+          driver-opts: |
+           network=host 
     - uses: ir-ashraya-tuladhar/pse-action@v5
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
