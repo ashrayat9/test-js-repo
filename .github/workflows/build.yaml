@@ -20,9 +20,8 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
-    - env: 
-        SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
-      run: echo $SCAN_ID
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
     - uses: ir-ashraya-tuladhar/pse-action@v5
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
