@@ -29,7 +29,7 @@ jobs:
       run: |
             apk update
             apk add --no-cache docker
-            service docker start
+            #service docker start
             docker --version
     - uses: ir-ashraya-tuladhar/pse-action@v5
       with:
