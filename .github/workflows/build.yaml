@@ -25,6 +25,12 @@ jobs:
       with:
           driver-opts: |
            network=host 
+    - name: Install Docker
+      run: |
+            apk update
+            apk add --no-cache docker
+            rc-service docker start
+            docker --version
     - uses: ir-ashraya-tuladhar/pse-action@v5
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
