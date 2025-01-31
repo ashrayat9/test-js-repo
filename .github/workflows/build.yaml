@@ -23,10 +23,12 @@ jobs:
     - env: 
         SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
       run: echo $SCAN_ID
-    - uses: ir-ashraya-tuladhar/pse-action@v0.0.1
+    - uses: ir-ashraya-tuladhar/pse-action@v0.0.2
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
+          VB API URL: 'https://app.stage.invisirisk.com'
+          VB API Key: '5OQeX24iS1X9u4CtwEdmfexnblMqSX9WS7cHDolmPokDnA169BvoZE1zxF8t6RhkB_svohzDQZQRi9DpQ1p7pQ'
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: build #Use Node.js ${{ matrix.node-version }}
