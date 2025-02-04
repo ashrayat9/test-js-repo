@@ -31,7 +31,7 @@ jobs:
     #         apk add --no-cache docker
     #         #service docker start
     #         docker --version
-    - uses: ir-ashraya-tuladhar/pse-action@v21
+    - uses: ir-ashraya-tuladhar/pse-action@v22
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
