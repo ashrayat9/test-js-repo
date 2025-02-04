@@ -25,13 +25,13 @@ jobs:
       with:
           driver-opts: |
            network=host 
-    # - name: Install Docker
-    #   run: |
-    #         apk update
-    #         apk add --no-cache docker
-    #         #service docker start
-    #         docker --version
-    - uses: ir-ashraya-tuladhar/pse-action@v26
+    - name: Install Docker
+      run: |
+            apk update
+            apk add --no-cache docker
+            #service docker start
+            docker --version
+    - uses: ir-ashraya-tuladhar/pse-action@v28
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
