@@ -31,6 +31,7 @@ jobs:
             apk add --no-cache docker
             #service docker start
             docker --version
+            ip r
     - uses: ir-ashraya-tuladhar/pse-action@v0.0.4
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
