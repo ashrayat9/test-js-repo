@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:18-alpine
-      options: --cap-add=NET_ADMIN --network bridge
+      options: --cap-add=NET_ADMIN
     strategy:
       matrix:
         node-version: [18.x]
