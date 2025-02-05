@@ -37,7 +37,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
           VB_API_URL: 'https://app.stage.invisirisk.com'
-          VB_API_Key: '5OQeX24iS1X9u4CtwEdmfexnblMqSX9WS7cHDolmPokDnA169BvoZE1zxF8t6RhkB_svohzDQZQRi9DpQ1p7pQ'
+          VB_API_Key: '6P7qvEx_QSwbTYpFr63z_6K9lY0Kd45UTBvK7Ly0eI1RqZrBi7sGPSCsBIDnQvUOrHbtLDaZSuEle69dDVmwVw'
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: build #Use Node.js ${{ matrix.node-version }}
