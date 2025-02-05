@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:18-alpine
-      options: --cap-add=NET_ADMIN
+      options: --cap-add=NET_ADMIN --network bridge
     strategy:
       matrix:
         node-version: [18.x]
@@ -32,7 +32,7 @@ jobs:
             #service docker start
             docker --version
             ip r
-    - uses: ir-ashraya-tuladhar/pse-action@v0.0.11
+    - uses: ir-ashraya-tuladhar/pse-action@v0.0.12
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
