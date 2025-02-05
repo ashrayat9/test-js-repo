@@ -20,11 +20,11 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
-    - name: Set up Docker
-      uses: docker/setup-buildx-action@v2
-      with:
-          driver-opts: |
-           network=host 
+    # - name: Set up Docker
+    #   uses: docker/setup-buildx-action@v2
+    #   with:
+    #       driver-opts: |
+    #        network=host 
     - name: Install Docker
       run: |
             apk update
@@ -32,7 +32,7 @@ jobs:
             #service docker start
             docker --version
             ip r
-    - uses: ir-ashraya-tuladhar/pse-action@v0.0.9
+    - uses: ir-ashraya-tuladhar/pse-action@v0.0.10
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
