@@ -14,9 +14,9 @@ jobs:
     container:
       image: node:18-alpine
       options: --cap-add=NET_ADMIN
-    strategy:
-      matrix:
-        node-version: [18.x]
+    # strategy:
+    #   matrix:
+    #     node-version: [18.x]
     steps:
     - uses: ir-ashraya-tuladhar/pse-action@v0.0.23
       with:
@@ -25,10 +25,10 @@ jobs:
           VB_API_Key: '6P7qvEx_QSwbTYpFr63z_6K9lY0Kd45UTBvK7Ly0eI1RqZrBi7sGPSCsBIDnQvUOrHbtLDaZSuEle69dDVmwVw'
     - name: Checkout the code
       uses: actions/checkout@v3
-    - name: build #Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-          node-version: ${{ matrix.node-version }}
+    # - name: build #Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v3
+    #   with:
+    #       node-version: ${{ matrix.node-version }}
     - run: npm install 
     - run: npm run build --if-present
     - run: npm test
