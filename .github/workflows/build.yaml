@@ -25,17 +25,16 @@ jobs:
     #   with:
     #       driver-opts: |
     #        network=host 
-    - name: Install Docker
-      run: |
-            apk update
-            apk add --no-cache docker
-            #service docker start
-            docker --version
-            ip r
-    - uses: ir-ashraya-tuladhar/pse-action@v0.0.20
+    # - name: Install Docker
+    #   run: |
+    #         apk update
+    #         apk add --no-cache docker
+    #         #service docker start
+    #         docker --version
+    #         ip r
+    - uses: ir-ashraya-tuladhar/pse-action@v0.0.21
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          SCAN_ID: ${{ needs.create_scan_in_IR_Portal.outputs.scan_id }}
           VB_API_URL: 'https://app.stage.invisirisk.com'
           VB_API_Key: '6P7qvEx_QSwbTYpFr63z_6K9lY0Kd45UTBvK7Ly0eI1RqZrBi7sGPSCsBIDnQvUOrHbtLDaZSuEle69dDVmwVw'
     - name: Checkout the code
