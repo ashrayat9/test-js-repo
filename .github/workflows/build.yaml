@@ -18,7 +18,7 @@ jobs:
     #   matrix:
     #     node-version: [18.x]
     steps:
-    - uses: ir-ashraya-tuladhar/pse-action@v0.0.23
+    - uses: ir-ashraya-tuladhar/pse-action@v0.0.26
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           VB_API_URL: 'https://app.stage.invisirisk.com'
