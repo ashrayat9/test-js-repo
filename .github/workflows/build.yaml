@@ -16,8 +16,10 @@ jobs:
       options: --cap-add=NET_ADMIN
     # strategy:
     #   matrix:
-    #     node-version: [18.x]
+    #     node-version: [18.x
     steps:
+    - run: apk add --no-cache bash
+
     - uses: ir-ashraya-tuladhar/pse-action@v0.0.27
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
