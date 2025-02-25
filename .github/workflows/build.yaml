@@ -20,7 +20,7 @@ jobs:
     steps:
     - run: apk add --no-cache bash
 
-    - uses: ir-ashraya-tuladhar/pse-action@v0.0.27
+    - uses: ir-ashraya-tuladhar/pse-action@v0.0.28
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           VB_API_URL: 'https://app.stage.invisirisk.com'
