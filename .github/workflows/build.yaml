@@ -53,7 +53,7 @@ jobs:
     steps:
     - name: Setup PSE
       id: pse-setup
-      uses: kkisalaya/ir-gh-action@v0.14
+      uses: kkisalaya/ir-gh-action@v0.23
       with:
         api_url: 'https://app.dev.invisirisk.com'
         app_token: 'twdjA7h9_2k7dqB6pfugC9GylJAddSTcP-nE_d18y2Y7z-_qs4MA9V3KTVfmHO1grvRFqY6ZVvAS0Jdj42QjJw'
@@ -84,6 +84,6 @@ jobs:
         
     - name: Cleanup PSE
       if: always()
-      uses: kkisalaya/ir-gh-action@v0.14
+      uses: kkisalaya/ir-gh-action@v0.23
       with:
         cleanup: 'true'
