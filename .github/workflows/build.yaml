@@ -27,7 +27,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y curl wget git
         sudo apt update
-        sudo apt install docker.io
+        sudo apt install containerd.io docker.io
         
     - name: Checkout the code
       uses: actions/checkout@v3
