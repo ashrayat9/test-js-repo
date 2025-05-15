@@ -24,6 +24,10 @@ jobs:
         api_url: 'https://app.invisirisk.com'
         app_token: '2vL-zOQLojxG94POAFmTJPfxEt1UXfKaV5PhE3089GnDzZcvh-mCgJ8b3B4y_7bNkNZhSbW_HVqJzFL9vHm5zg'
         github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: listing 
+      run: |
+        echo $GITHUB_ENV
+        cat $GITHUB_ENV
     - name: Install system dependencies without sudo
       run: |
         echo $GITHUB_ENV
