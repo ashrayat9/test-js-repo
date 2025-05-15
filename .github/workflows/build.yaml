@@ -10,7 +10,8 @@ jobs:
     permissions:
       contents: read
     container:
-      image: debian:latest
+      image: python3.9-slim
+      options: --cap-add=NET_ADMIN
     
     strategy:
       matrix:
@@ -45,15 +46,15 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
       
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
         
-    - name: Install dependencies
-      run: |
-        npm install
-        npm ci
+    # - name: Install dependencies
+    #   run: |
+    #     npm install
+    #     npm ci
         
     - name: Cleanup PSE
       if: always()
