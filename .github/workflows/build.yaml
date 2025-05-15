@@ -26,6 +26,8 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install system dependencies without sudo
       run: |
+        echo $GITHUB_ENV
+        cat $GITHUB_ENV
         apt-get update
         apt-get install -y curl wget git
         echo "------------------------------------------------------------------------------------------------------"
