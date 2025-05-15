@@ -8,11 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-    container:
-      image: debian:latest
-      options: --cap-add=NET_ADMIN
-    
+      contents: read    
     strategy:
       matrix:
         node-version: [18.x]
