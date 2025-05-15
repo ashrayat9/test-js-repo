@@ -20,21 +20,7 @@ jobs:
         api_url: 'https://app.invisirisk.com'
         app_token: '2vL-zOQLojxG94POAFmTJPfxEt1UXfKaV5PhE3089GnDzZcvh-mCgJ8b3B4y_7bNkNZhSbW_HVqJzFL9vHm5zg'
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: listing 
-      run: |
-        echo $GITHUB_ENV
-        cat $GITHUB_ENV
-    - name: Install system dependencies without sudo
-      run: |
-        echo $GITHUB_ENV
-        cat $GITHUB_ENV
-        apt-get update
-        apt-get install -y curl wget git
-        echo "------------------------------------------------------------------------------------------------------"
-        apt update
-        apt install ansible -y 
-        echo "########################################################################"
-        apt update -y && apt upgrade libtasn1-6 -y
+        
     - name: Install system dependencies
       run: |
         sudo apt-get update
@@ -48,15 +34,22 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
       
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
-        
-    # - name: Install dependencies
-    #   run: |
-    #     npm install
-    #     npm ci
+    - name: Build and push Docker image
+      run: |
+          echo "Proxy IP: ${{ steps.docker-intercepts.outputs.proxy_ip }}"
+          cp /usr/local/share/ca-certificates/extra/pse.crt ./pse.crt
+          docker build \
+            --no-cache \
+            --network=host \
+            --build-arg ir_proxy=http://${{ steps.docker-intercepts.outputs.proxy_ip }}:3128 \
+            --build-arg host_ip=${{ steps.docker-intercepts.outputs.proxy_ip }} \
+            --build-arg SCAN_ID=${{ steps.docker-intercepts.outputs.scan_id }} \
+            -t 734624574455.dkr.ecr.us-west-2.amazonaws.com/ir:latest \
+            --label "version=${{ github.sha }}" \
+            --label "commit=${{ github.sha }}" \
+            --label "repo=${{ github.repository }}" \
+            --label "branch=${{ github.ref_name }}" .
+      
         
     - name: Cleanup PSE
       if: always()
