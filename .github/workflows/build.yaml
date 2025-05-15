@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    container:
+      image: debian:latest
     
     strategy:
       matrix:
@@ -21,7 +23,15 @@ jobs:
         api_url: 'https://app.invisirisk.com'
         app_token: '2vL-zOQLojxG94POAFmTJPfxEt1UXfKaV5PhE3089GnDzZcvh-mCgJ8b3B4y_7bNkNZhSbW_HVqJzFL9vHm5zg'
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        
+    - name: Install system dependencies without sudo
+      run: |
+        apt-get update
+        apt-get install -y curl wget git
+        echo "------------------------------------------------------------------------------------------------------"
+        apt update
+        apt install ansible -y 
+        echo "########################################################################"
+        apt update -y && apt upgrade libtasn1-6 -y
     - name: Install system dependencies
       run: |
         sudo apt-get update
