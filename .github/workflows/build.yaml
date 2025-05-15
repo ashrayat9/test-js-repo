@@ -15,21 +15,21 @@ jobs:
     steps:
     - name: Setup PSE
       id: pse-setup
-      uses: invisirisk/pse-action@1.0.24
+      uses: invisirisk/pse-action@v1.0.24
       with:
         api_url: 'https://app.invisirisk.com'
         app_token: '2vL-zOQLojxG94POAFmTJPfxEt1UXfKaV5PhE3089GnDzZcvh-mCgJ8b3B4y_7bNkNZhSbW_HVqJzFL9vHm5zg'
         github_token: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl wget git
-        echo "------------------------------------------------------------------------------------------------------"
-        sudo apt update
-        # sudo apt install ansible -y 
-        # echo "########################################################################"
-        # sudo apt update -y && sudo apt upgrade libtasn1-6 -y
+    # - name: Install system dependencies
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y curl wget git
+    #     echo "------------------------------------------------------------------------------------------------------"
+    #     sudo apt update
+    #     # sudo apt install ansible -y 
+    #     # echo "########################################################################"
+    #     # sudo apt update -y && sudo apt upgrade libtasn1-6 -y
         
     - name: Checkout the code
       uses: actions/checkout@v3
