@@ -15,7 +15,7 @@ jobs:
     steps:
     - name: Setup PSE
       id: pse-setup
-      uses: invisirisk/pse-action@latest
+      uses: invisirisk/pse-action@1.0.24
       with:
         api_url: 'https://app.invisirisk.com'
         app_token: '2vL-zOQLojxG94POAFmTJPfxEt1UXfKaV5PhE3089GnDzZcvh-mCgJ8b3B4y_7bNkNZhSbW_HVqJzFL9vHm5zg'
