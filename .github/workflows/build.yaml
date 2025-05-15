@@ -1,40 +1,3 @@
-# name: Build NPM Package
-# on:
-#   push:
-#     branches: [ main ]
-#   pull_request:
-#     branches: [ main ]
-# permissions:
-#   checks: write
-#   contents: read
-#   packages: read
-# jobs:
-#   start_proxy_and_build:
-#     runs-on: ubuntu-latest
-#     container:
-#       image: node:18-alpine
-#       options: --cap-add=NET_ADMIN
-#     # strategy:
-#     #   matrix:
-#     #     node-version: [18.x
-#     steps:
-#     - run: apk add --no-cache bash
-
-#     - uses: ir-ashraya-tuladhar/pse-action@v0.0.30
-#       with:
-#           github-token: ${{ secrets.GITHUB_TOKEN }}
-#           VB_API_URL: 'https://app.stage.invisirisk.com'
-#           VB_API_Key: '6P7qvEx_QSwbTYpFr63z_6K9lY0Kd45UTBvK7Ly0eI1RqZrBi7sGPSCsBIDnQvUOrHbtLDaZSuEle69dDVmwVw'
-#     - name: Checkout the code
-#       uses: actions/checkout@v3
-#     # - name: build #Use Node.js ${{ matrix.node-version }}
-#     #   uses: actions/setup-node@v3
-#     #   with:
-#     #       node-version: ${{ matrix.node-version }}
-#     - run: npm install 
-#     - run: npm run build --if-present
-#     - run: npm test
-
 name: Build NPM Package
 on:
   push:
@@ -53,16 +16,18 @@ jobs:
     steps:
     - name: Setup PSE
       id: pse-setup
-      uses: kkisalaya/ir-gh-action@v0.23
+      uses: invisirisk/pse-action@latest
       with:
-        api_url: 'https://app.dev.invisirisk.com'
-        app_token: 'twdjA7h9_2k7dqB6pfugC9GylJAddSTcP-nE_d18y2Y7z-_qs4MA9V3KTVfmHO1grvRFqY6ZVvAS0Jdj42QjJw'
+        api_url: 'https://app.invisirisk.com'
+        app_token: '2vL-zOQLojxG94POAFmTJPfxEt1UXfKaV5PhE3089GnDzZcvh-mCgJ8b3B4y_7bNkNZhSbW_HVqJzFL9vHm5zg'
         github_token: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y curl wget git
+        sudo apt update
+        sudo apt install docker.io
         
     - name: Checkout the code
       uses: actions/checkout@v3
@@ -77,13 +42,8 @@ jobs:
         npm install
         npm ci
         
-    - name: Build and Test
-      run: |
-        npm run build --if-present
-        npm test
-        
     - name: Cleanup PSE
       if: always()
-      uses: kkisalaya/ir-gh-action@v0.23
+      uses: invisirisk/pse-action@latest
       with:
         cleanup: 'true'
