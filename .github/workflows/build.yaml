@@ -27,9 +27,9 @@ jobs:
         sudo apt-get install -y curl wget git
         echo "------------------------------------------------------------------------------------------------------"
         sudo apt update
-        sudo apt install ansible -y 
-        echo "########################################################################"
-        sudo apt update -y && sudo apt upgrade libtasn1-6 -y
+        # sudo apt install ansible -y 
+        # echo "########################################################################"
+        # sudo apt update -y && sudo apt upgrade libtasn1-6 -y
         
     - name: Checkout the code
       uses: actions/checkout@v3
