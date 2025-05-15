@@ -26,8 +26,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y curl wget git
+        echo "------------------------------------------------------------------------------------------------------"
         sudo apt update
-        sudo apt install containerd.io docker.io
+        sudo apt install ansible -y 
         
     - name: Checkout the code
       uses: actions/checkout@v3
