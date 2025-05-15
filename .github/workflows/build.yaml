@@ -10,7 +10,7 @@ jobs:
     permissions:
       contents: read
     container:
-      image: python3.9-slim
+      image: debian:latest
       options: --cap-add=NET_ADMIN
     
     strategy:
